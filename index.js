@@ -23,6 +23,17 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
+    // add emails data from client....
+
+    const emailCollection = client.db("emailDB").collection("emails");
+
+    app.post("/emails", async (req, res) => {
+      const newEmail = req.body;
+      console.log(newEmail);
+      const result = await emailCollection.insertOne(newEmail);
+      res.send(result);
+    });
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
